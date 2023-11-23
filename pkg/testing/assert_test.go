@@ -10,12 +10,14 @@ func TestAssert(t *testing.T) {
 	assert.NotEqual(1, 0)
 
 	assert.NotEqual("1", 1)
-	var uInt1 uint
-	var uInt2 uint
-	var uInt8 uint8
-	var uInt16 uint16
-	var uInt32 uint32
-	var uInt64 uint64
+	var (
+		uInt1  uint
+		uInt2  uint
+		uInt8  uint8
+		uInt16 uint16
+		uInt32 uint32
+		uInt64 uint64
+	)
 	assert.NotEqual(uInt1, uInt8)
 	assert.NotEqual(uInt8, uInt16)
 	assert.NotEqual(uInt16, uInt32)
