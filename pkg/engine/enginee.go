@@ -56,8 +56,8 @@ func (rg RouterGroupWrapper) Group(relativePath string, handlers ...gin.HandlerF
 func (rg RouterGroupWrapper) GET(relativePath string, typ ResourceType, handlers ...gin.HandlerFunc) gin.IRoutes {
 	absolutePath := path.Join(rg.BasePath(), relativePath)
 	rg.engine.mutex.Lock()
+	defer rg.engine.mutex.Unlock()
 	rg.engine.Routers[FormatRoute(http.MethodGet, absolutePath)] = typ
-	rg.engine.mutex.Unlock()
 
 	return rg.RouterGroup.GET(relativePath, handlers...)
 }
@@ -65,8 +65,8 @@ func (rg RouterGroupWrapper) GET(relativePath string, typ ResourceType, handlers
 func (rg RouterGroupWrapper) POST(relativePath string, typ ResourceType, handlers ...gin.HandlerFunc) gin.IRoutes {
 	absolutePath := path.Join(rg.BasePath(), relativePath)
 	rg.engine.mutex.Lock()
+	defer rg.engine.mutex.Unlock()
 	rg.engine.Routers[FormatRoute(http.MethodPost, absolutePath)] = typ
-	rg.engine.mutex.Unlock()
 
 	return rg.RouterGroup.POST(relativePath, handlers...)
 }
@@ -74,8 +74,8 @@ func (rg RouterGroupWrapper) POST(relativePath string, typ ResourceType, handler
 func (rg RouterGroupWrapper) PATCH(relativePath string, typ ResourceType, handlers ...gin.HandlerFunc) gin.IRoutes {
 	absolutePath := path.Join(rg.BasePath(), relativePath)
 	rg.engine.mutex.Lock()
+	defer rg.engine.mutex.Unlock()
 	rg.engine.Routers[FormatRoute(http.MethodPatch, absolutePath)] = typ
-	rg.engine.mutex.Unlock()
 
 	return rg.RouterGroup.PATCH(relativePath, handlers...)
 }
@@ -83,8 +83,8 @@ func (rg RouterGroupWrapper) PATCH(relativePath string, typ ResourceType, handle
 func (rg RouterGroupWrapper) PUT(relativePath string, typ ResourceType, handlers ...gin.HandlerFunc) gin.IRoutes {
 	absolutePath := path.Join(rg.BasePath(), relativePath)
 	rg.engine.mutex.Lock()
+	defer rg.engine.mutex.Unlock()
 	rg.engine.Routers[FormatRoute(http.MethodPut, absolutePath)] = typ
-	rg.engine.mutex.Unlock()
 
 	return rg.RouterGroup.PUT(relativePath, handlers...)
 }
@@ -92,8 +92,8 @@ func (rg RouterGroupWrapper) PUT(relativePath string, typ ResourceType, handlers
 func (rg RouterGroupWrapper) DELETE(relativePath string, typ ResourceType, handlers ...gin.HandlerFunc) gin.IRoutes {
 	absolutePath := path.Join(rg.BasePath(), relativePath)
 	rg.engine.mutex.Lock()
+	defer rg.engine.mutex.Unlock()
 	rg.engine.Routers[FormatRoute(http.MethodDelete, absolutePath)] = typ
-	rg.engine.mutex.Unlock()
 
 	return rg.RouterGroup.DELETE(relativePath, handlers...)
 }
