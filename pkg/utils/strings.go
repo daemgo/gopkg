@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"reflect"
 	"regexp"
 	"strings"
 	"unicode"
@@ -377,16 +376,25 @@ func RemoveNonPrintable(str string) string {
 // StringToBytes converts a string to byte slice without a memory allocation.
 // Play: https://go.dev/play/p/7OyFBrf9AxA
 func StringToBytes(str string) (b []byte) {
-	sh := *(*reflect.StringHeader)(unsafe.Pointer(&str))
-	bh := (*reflect.SliceHeader)(unsafe.Pointer(&b))
-	bh.Data, bh.Len, bh.Cap = sh.Data, sh.Len, sh.Len
-	return b
+
+	return *(*[]byte)(unsafe.Pointer(
+		&struct {
+			string
+			Cap int
+		}{str, len(str)},
+	))
 }
 
 // BytesToString converts a byte slice to string without a memory allocation.
 // Play: https://go.dev/play/p/6c68HRvJecH
 func BytesToString(bytes []byte) string {
 	return *(*string)(unsafe.Pointer(&bytes))
+}
+
+// IsNotBlank checks if a string is not whitespace, not empty.
+// Play: https://go.dev/play/p/e_oJW0RAquA
+func IsNotBlank(str string) bool {
+	return !IsBlank(str)
 }
 
 // IsBlank checks if a string is whitespace, empty.
@@ -403,12 +411,6 @@ func IsBlank(str string) bool {
 		}
 	}
 	return true
-}
-
-// IsNotBlank checks if a string is not whitespace, not empty.
-// Play: https://go.dev/play/p/e_oJW0RAquA
-func IsNotBlank(str string) bool {
-	return !IsBlank(str)
 }
 
 // HasPrefixAny check if a string starts with any of a slice of specified strings.
@@ -739,4 +741,15 @@ func isLetter(r rune) bool {
 	}
 
 	return true
+}
+
+// Blank 判断 Trim 后的字符串, 是否为空白
+func Blank(str string) bool {
+	t := strings.TrimSpace(str)
+
+	if t == "" {
+		return true
+	}
+
+	return false
 }
